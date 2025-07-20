@@ -12,7 +12,14 @@
     <p id="loading-text"></p>
 
     <div class="intro">
-      <p>Welcome to the Memory Matrix Puzzle!</p>
+      <p>
+        Instructions: After clicking 'Start Puzzle' you will be directed to a
+        preview of a grid of button in which you will see flashing buttons; Pay
+        close attention to the exact order in which the flashing buttons are
+        turning green and try to memoize at a glance and use that memory to
+        click those buttons in that exact order of the flashes after the preview
+        is completed!
+      </p>
       <button class="start-button" id="start-btn">Start Puzzle</button>
     </div>
 
@@ -21,6 +28,9 @@
       <button id="btn{{i}}">{{i}}</button>
       {% endfor %}
     </div>
+
+    <br />
+    <p id="answer"></p>
 
     <script
       type="module"
