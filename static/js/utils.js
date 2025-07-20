@@ -72,9 +72,6 @@ function afterStartButtonClicked(
     const grid = document.querySelector(".grid-container");
     grid.style.display = "grid";
 
-    const answerKey = document.getElementById("answer");
-    answerKey.textContent = `Answer: ${correctSequence}`
-
     // 🖱️ Attach listeners
     for (let i = 1; i <= 16; i++) {
       const btn = document.getElementById(`btn${i}`);
