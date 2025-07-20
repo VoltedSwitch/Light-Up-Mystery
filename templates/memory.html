@@ -9,7 +9,7 @@
   </head>
   <body>
     <h1>Memory Matrix 🧠</h1>
-    <p id="loading-text"></p>
+    <p id="loading-text" class="loading-text"></p>
 
     <div class="intro">
       <p>
@@ -20,10 +20,10 @@
         click those buttons in that exact order of the flashes after the preview
         is completed!
       </p>
-      <button class="start-button" id="start-btn">Start Puzzle</button>
+      <button id="start-button" class="start-button">Start Puzzle</button>
     </div>
 
-    <div class="grid-container">
+    <div id="grid-container" class="grid-container">
       {% for i in range(1, 17) %}
       <button id="btn{{i}}">{{i}}</button>
       {% endfor %}

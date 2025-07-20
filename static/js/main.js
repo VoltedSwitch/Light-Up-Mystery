@@ -34,7 +34,7 @@ function handleGridClick(num) {
 }
 
 // 🌟 Start button logic
-const button = document.getElementById("start-btn");
+const button = document.getElementById("start-button");
 button.addEventListener("click", () => {
   afterStartButtonClicked(correctSequence, handleGridClick, () => {
     isInputAllowed = true;

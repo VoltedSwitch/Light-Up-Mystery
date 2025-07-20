@@ -17,7 +17,7 @@ h1 {
   cursor: pointer;
 }
 
-#loading-text {
+.loading-text {
   font-size: 18px;
   color: gray;
   text-align: center;

@@ -69,7 +69,7 @@ function afterStartButtonClicked(
     loadingText.textContent = "";
 
     // 📦 Reveal grid
-    const grid = document.querySelector(".grid-container");
+    const grid = document.getElementById("grid-container");
     grid.style.display = "grid";
 
     // 🖱️ Attach listeners
