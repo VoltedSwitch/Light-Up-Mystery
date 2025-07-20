@@ -1,25 +1,42 @@
 import {
   generatePattern,
+  afterStartButtonClicked,
   userisSoFarCorrect,
+  applyCorrectClickStyle,
+  applyWrongClickStyle,
   userHasWon,
-  previewSequence,
 } from "./utils.js";
 
+// 🌟 Global game state
 let userSequence = [];
 let correctSequence = generatePattern();
 let isInputAllowed = false;
 
-// Preview first!
-previewSequence(correctSequence);
+// 🌟 This is the function we'll pass to utils.js
+function handleGridClick(num) {
+  if (!isInputAllowed) return;
 
-function handleClick(num) {
-  if (!isInputAllowed) return; // Ignore clicks during preview
+  if (userSequence.includes(num)) return;
 
-  userSequence.push(num);
-  if (!userisSoFarCorrect(userSequence, correctSequence)) {
+  const tempSequence = [...userSequence, num]; // 📌 simulate next step
+
+  if (userisSoFarCorrect(tempSequence, correctSequence)) {
+    applyCorrectClickStyle(num);
+    userSequence.push(num); // 🧠 now it's safe to update!
+
     if (userHasWon(userSequence, correctSequence)) {
-        
+      console.log("🎉 You won!");
     }
-    // Phase 2: Handle wrong answer here
+  } else {
+    applyWrongClickStyle(num);
+    console.log("❌ Wrong button. You lost.");
   }
 }
+
+// 🌟 Start button logic
+const button = document.getElementById("start-btn");
+button.addEventListener("click", () => {
+  afterStartButtonClicked(correctSequence, handleGridClick, () => {
+    isInputAllowed = true;
+  });
+});

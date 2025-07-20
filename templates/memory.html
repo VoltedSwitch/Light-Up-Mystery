@@ -9,10 +9,16 @@
   </head>
   <body>
     <h1>Memory Matrix 🧠</h1>
+    <p id="loading-text"></p>
+
+    <div class="intro">
+      <p>Welcome to the Memory Matrix Puzzle!</p>
+      <button class="start-button" id="start-btn">Start Puzzle</button>
+    </div>
 
     <div class="grid-container">
       {% for i in range(1, 17) %}
-      <button id="btn{{i}}" onclick="handleClick({{i}})">{{i}}</button>
+      <button id="btn{{i}}">{{i}}</button>
       {% endfor %}
     </div>
 

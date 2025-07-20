@@ -24,34 +24,70 @@ function userHasWon(userSequence, correctSequence) {
   );
 }
 
-function previewSequence(sequence) {
+function previewSequence(sequence, onDone) {
   sequence.forEach((num, idx) => {
     setTimeout(() => {
       const btn = document.getElementById(`btn${num}`);
       btn.classList.add("preview-glow");
 
-      // Remove glow after 500ms
       setTimeout(() => {
         btn.classList.remove("preview-glow");
       }, 500);
     }, idx * 1000);
   });
 
-  // Let user click only *after* last light-up
+  // ✅ Call when done
   setTimeout(() => {
-    isInputAllowed = true;
-  }, sequence.length * 1000); // Wait till all are previewed
+    onDone(); // THIS runs whatever you want afterward
+  }, sequence.length * 1000);
 }
 
-function showClicked(num) {
-  btn.document.getElementById(`btn{num}`);
+function applyCorrectClickStyle(num) {
+  const btn = document.getElementById(`btn${num}`);
   btn.classList.add("clicked-correct");
+}
+
+function applyWrongClickStyle(num) {
+  const btn = document.getElementById(`btn${num}`);
+  btn.classList.add("clicked-wrong");
+}
+
+function afterStartButtonClicked(
+  correctSequence,
+  handleGridClick,
+  onPreviewDone
+) {
+  // 💨 Remove intro
+  document.querySelector(".intro").remove();
+
+  // 💬 Show loading...
+  const loadingText = document.getElementById("loading-text");
+  loadingText.textContent = "Loading...";
+
+  // ⏳ After delay...
+  setTimeout(() => {
+    loadingText.textContent = "";
+
+    // 📦 Reveal grid
+    const grid = document.querySelector(".grid-container");
+    grid.style.display = "grid";
+
+    // 🖱️ Attach listeners
+    for (let i = 1; i <= 16; i++) {
+      const btn = document.getElementById(`btn${i}`);
+      btn.addEventListener("click", () => handleGridClick(i));
+    }
+
+    // ✨ Begin glowing sequence
+    previewSequence(correctSequence, onPreviewDone);
+  }, 2000);
 }
 
 export {
   generatePattern,
-  previewSequence,
+  afterStartButtonClicked,
   userisSoFarCorrect,
-  showClicked,
+  applyCorrectClickStyle,
+  applyWrongClickStyle,
   userHasWon,
 };

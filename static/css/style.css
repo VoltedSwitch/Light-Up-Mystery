@@ -2,13 +2,36 @@ h1 {
   text-align: center;
 }
 
+.intro {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.start-button {
+  padding: 15px 30px;
+  font-size: 18px;
+  background-color: teal;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#loading-text {
+  font-size: 18px;
+  color: gray;
+  text-align: center;
+  margin-top: -15px;
+}
+
 .grid-container {
-  display: grid;
+  display: none;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   max-width: 400px;
   margin: 0 auto;
   padding: 30px;
+  transition: background-color 2 ease;
 }
 button {
   padding: 30px;
@@ -29,8 +52,20 @@ button:hover {
   color: black;
 }
 
+.clicked-wrong {
+  background-color: red;
+  color: black;
+}
+
 .preview-glow {
   background-color: white !important;
   color: black !important;
   transition: background-color 0.3s ease;
+}
+
+.result-message {
+  font-size: 24px;
+  color: crimson;
+  text-align: center;
+  margin-top: 20px;
 }
