@@ -48,18 +48,18 @@ button:hover {
 }
 
 .clicked-correct {
-  background-color: white;
-  color: black;
+  background-color: rgb(22, 153, 70);
+  color: white;
 }
 
 .clicked-wrong {
   background-color: red;
-  color: black;
+  color: white;
 }
 
 .preview-glow {
-  background-color: white !important;
-  color: black !important;
+  background-color: rgb(22, 153, 70) !important;
+  color: white !important;
   transition: background-color 0.3s ease;
 }
 
