@@ -1,0 +1,36 @@
+h1 {
+  text-align: center;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 30px;
+}
+button {
+  padding: 30px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: none;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3 ease;
+}
+button:hover {
+  background-color: #555;
+}
+
+.clicked-correct {
+  background-color: white;
+  color: black;
+}
+
+.preview-glow {
+  background-color: white !important;
+  color: black !important;
+  transition: background-color 0.3s ease;
+}
