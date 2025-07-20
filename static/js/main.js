@@ -42,7 +42,7 @@ function handleGridClick(num) {
 // 🌟 Start puzzle on initial button click
 const button = document.getElementById("start-btn");
 button.addEventListener("click", () => {
-  document.querySelector(".intro").remove();
+  document.getElementById("intro").remove();
 
   const loadingText = document.getElementById("loading-text");
   loadingText.textContent = "Loading...";
