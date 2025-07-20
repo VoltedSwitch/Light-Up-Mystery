@@ -1,3 +1,5 @@
+// static/js/utils.js
+
 function randint(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -13,15 +15,14 @@ function generatePattern(length = 3, min = 1, max = 16) {
   return pattern;
 }
 
-function userisSoFarCorrect(userSequence, correctSequence) {
-  return userSequence.every((val, idx) => val === correctSequence[idx]);
+function applyCorrectClickStyle(num) {
+  const btn = document.getElementById(`btn${num}`);
+  btn.classList.add("clicked-correct");
 }
 
-function userHasWon(userSequence, correctSequence) {
-  return (
-    userisSoFarCorrect(userSequence, correctSequence) &&
-    userSequence.length === correctSequence.length
-  );
+function applyWrongClickStyle(num) {
+  const btn = document.getElementById(`btn${num}`);
+  btn.classList.add("clicked-wrong");
 }
 
 function previewSequence(sequence, onDone) {
@@ -36,58 +37,64 @@ function previewSequence(sequence, onDone) {
     }, idx * 1000);
   });
 
-  // ✅ Call when done
   setTimeout(() => {
-    onDone(); // THIS runs whatever you want afterward
+    onDone();
   }, sequence.length * 1000);
 }
 
-function applyCorrectClickStyle(num) {
-  const btn = document.getElementById(`btn${num}`);
-  btn.classList.add("clicked-correct");
+// 🎉 Show win message and restart button
+function afterUserWon() {
+  const messageArea = document.getElementById("result-message");
+  messageArea.innerHTML = "";
+
+  const strong = document.createElement("strong");
+  strong.textContent = "🎉 You won!";
+  strong.style.display = "block";
+
+  const br = document.createElement("br");
+
+  const againButton = document.createElement("button");
+  againButton.textContent = "Puzzle Again?";
+  againButton.id = "puzzle-again";
+
+  againButton.addEventListener("click", () => {
+    import("./main.js").then((mod) => mod.restartApp());
+  });
+
+  messageArea.appendChild(strong);
+  messageArea.appendChild(br);
+  messageArea.appendChild(againButton);
 }
 
-function applyWrongClickStyle(num) {
-  const btn = document.getElementById(`btn${num}`);
-  btn.classList.add("clicked-wrong");
-}
+// ❌ Show loss message and restart button
+function afterUserLost() {
+  const messageArea = document.getElementById("result-message");
+  messageArea.innerHTML = "";
 
-function afterStartButtonClicked(
-  correctSequence,
-  handleGridClick,
-  onPreviewDone
-) {
-  // 💨 Remove intro
-  document.querySelector(".intro").remove();
+  const strong = document.createElement("strong");
+  strong.textContent = "❌ Wrong button. You lost.";
+  strong.style.display = "block";
 
-  // 💬 Show loading...
-  const loadingText = document.getElementById("loading-text");
-  loadingText.textContent = "Loading...";
+  const br = document.createElement("br");
 
-  // ⏳ After delay...
-  setTimeout(() => {
-    loadingText.textContent = "";
+  const tryAgainButton = document.createElement("button");
+  tryAgainButton.textContent = "Try Again?";
+  tryAgainButton.id = "try-again";
 
-    // 📦 Reveal grid
-    const grid = document.getElementById("grid-container");
-    grid.style.display = "grid";
+  tryAgainButton.addEventListener("click", () => {
+    import("./main.js").then((mod) => mod.restartApp());
+  });
 
-    // 🖱️ Attach listeners
-    for (let i = 1; i <= 16; i++) {
-      const btn = document.getElementById(`btn${i}`);
-      btn.addEventListener("click", () => handleGridClick(i));
-    }
-
-    // ✨ Begin glowing sequence
-    previewSequence(correctSequence, onPreviewDone);
-  }, 2000);
+  messageArea.appendChild(strong);
+  messageArea.appendChild(br);
+  messageArea.appendChild(tryAgainButton);
 }
 
 export {
   generatePattern,
-  afterStartButtonClicked,
-  userisSoFarCorrect,
   applyCorrectClickStyle,
   applyWrongClickStyle,
-  userHasWon,
+  previewSequence,
+  afterUserWon,
+  afterUserLost,
 };
