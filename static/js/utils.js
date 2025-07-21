@@ -4,7 +4,7 @@ function randint(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function generatePattern(length = 1, min = 1, max = 16) {
+function generatePattern(length = 5, min = 1, max = 16) {
   const pattern = [];
   while (pattern.length < length) {
     const rand = randint(min, max);
