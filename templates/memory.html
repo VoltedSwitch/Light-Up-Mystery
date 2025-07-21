@@ -1,3 +1,5 @@
+<!--templates/memory.html-->
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -13,17 +15,23 @@
     <p id="display-streak" class="display-streak"></p>
 
     <div id="intro" class="intro">
-      <p>
-        Instructions: After clicking 'Start Puzzle' you will be directed to a
-        preview of a grid of button in which you will see flashing buttons; Pay
-        close attention to the exact order in which the flashing buttons are
-        turning green and try to memoize at a glance and use that memory to
-        click those buttons in that exact order of the flashes after the preview
-        is completed!
+      <br />
+      <br />
+      <p class="instructions">
+        <strong>Instructions</strong>: After clicking 'Start Puzzle' you will be
+        directed to a preview of a grid of button in which you will see flashing
+        buttons; Pay close attention to the exact order in which the flashing
+        buttons are turning green and try to memorize at a glance and use that
+        memory to click those buttons in that exact order of the flashes after
+        the preview is completed!
       </p>
+      <br />
+      <br />
+      <br />
       <button id="start-btn" class="start-button">Start Puzzle</button>
     </div>
-
+    <br />
+    <br />
     <div id="grid-container" class="grid-container">
       {% for i in range(1, 17) %}
       <button id="btn{{i}}">{{i}}</button>
