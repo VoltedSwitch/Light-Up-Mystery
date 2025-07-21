@@ -10,6 +10,7 @@ import {
 } from "./utils.js";
 
 // 🌟 Global puzzle state
+let streak = 0;
 let userSequence = [];
 let correctSequence = generatePattern();
 let isInputAllowed = false;
@@ -20,22 +21,26 @@ function handleGridClick(num) {
   if (userSequence.includes(num)) return;
 
   const tempSequence = [...userSequence, num];
+  const displayStreak = document.getElementById("display-streak");
 
   if (tempSequence.every((val, idx) => val === correctSequence[idx])) {
     applyCorrectClickStyle(num);
     userSequence.push(num);
-
     if (
       userSequence.length === correctSequence.length &&
       tempSequence.every((val, idx) => val === correctSequence[idx])
     ) {
       isInputAllowed = false;
       afterUserWon(); // 🎉
+      streak++;
+      displayStreak.textContent = `🔥 ${streak}`;
     }
   } else {
     isInputAllowed = false;
     applyWrongClickStyle(num);
     afterUserLost(); // ❌
+    streak = 0;
+    displayStreak.textContent = "";
   }
 }
 
