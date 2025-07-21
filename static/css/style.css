@@ -68,3 +68,7 @@ button:hover {
   text-align: center;
   margin-top: 20px;
 }
+
+.display-streak {
+  font-size: 30px;
+}
