@@ -7,7 +7,10 @@ import {
   previewSequence,
   applyWrongClickStyle,
   applyCorrectClickStyle,
+  isSequenceCorrect,
 } from "./utils.js";
+
+import { CLASSNAMES } from "./constants.js";
 
 // 🌟 Global puzzle state
 let streak = 0;
@@ -21,41 +24,41 @@ function handleGridClick(num) {
   if (userSequence.includes(num)) return;
 
   const tempSequence = [...userSequence, num];
-  const displayStreak = document.getElementById("display-streak");
+  const displayStreak = document.getElementById(CLASSNAMES.streak);
 
-  if (tempSequence.every((val, idx) => val === correctSequence[idx])) {
+  if (isSequenceCorrect(tempSequence, correctSequence)) {
     applyCorrectClickStyle(num);
     userSequence.push(num);
-    if (
-      userSequence.length === correctSequence.length &&
-      tempSequence.every((val, idx) => val === correctSequence[idx])
-    ) {
+
+    const isComplete = userSequence.length === correctSequence.length;
+
+    if (isComplete && isSequenceCorrect(tempSequence, correctSequence)) {
       isInputAllowed = false;
-      afterUserWon(); // 🎉
+      afterUserWon();
       streak++;
       displayStreak.textContent = `🔥 ${streak}`;
     }
   } else {
     isInputAllowed = false;
     applyWrongClickStyle(num);
-    afterUserLost(); // ❌
+    afterUserLost();
     streak = 0;
     displayStreak.textContent = "";
   }
 }
 
 // 🌟 Start puzzle on initial button click
-const button = document.getElementById("start-btn");
+const button = document.getElementById(CLASSNAMES.startButton);
 button.addEventListener("click", () => {
   document.getElementById("intro").remove();
 
-  const loadingText = document.getElementById("loading-text");
+  const loadingText = document.getElementById(CLASSNAMES.loading);
   loadingText.textContent = "Loading...";
 
   setTimeout(() => {
     loadingText.textContent = "";
 
-    const grid = document.getElementById("grid-container");
+    const grid = document.getElementById(CLASSNAMES.grid);
     grid.style.display = "grid";
 
     for (let i = 1; i <= 16; i++) {
@@ -71,20 +74,20 @@ button.addEventListener("click", () => {
 
 // 🔄 Restart logic used by utils.js buttons
 function restartApp() {
-  const messageArea = document.getElementById("result-message");
+  const messageArea = document.getElementById(CLASSNAMES.result);
   if (messageArea) {
     messageArea.innerHTML = "";
   }
 
-  const grid = document.getElementById("grid-container");
+  const grid = document.getElementById(CLASSNAMES.grid);
   grid.style.display = "none";
 
-  const loadingText = document.getElementById("loading-text");
+  const loadingText = document.getElementById(CLASSNAMES.loading);
   loadingText.textContent = "Loading...";
 
   for (let i = 1; i <= 16; i++) {
     const btn = document.getElementById(`btn${i}`);
-    btn.classList.remove("clicked-correct", "clicked-wrong");
+    btn.classList.remove(CLASSNAMES.win, CLASSNAMES.loss);
   }
 
   userSequence = [];

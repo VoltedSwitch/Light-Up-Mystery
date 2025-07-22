@@ -73,10 +73,21 @@ button {
 }
 
 .result-message {
-  font-size: 24px;
-  color: black;
   text-align: center;
+  font-size: 24px;
   margin-top: 20px;
+}
+
+.win-message {
+  display: block;
+  color: green;
+  font-weight: bold;
+}
+
+.loss-message {
+  display: block;
+  color: red;
+  font-weight: bold;
 }
 
 .display-streak {

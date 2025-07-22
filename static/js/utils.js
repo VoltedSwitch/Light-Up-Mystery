@@ -1,10 +1,12 @@
 // static/js/utils.js
 
+import { CLASSNAMES } from "./constants.js";
+
 function randint(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function generatePattern(length = 5, min = 1, max = 16) {
+function generatePattern(length = 2, min = 1, max = 16) {
   const pattern = [];
   while (pattern.length < length) {
     const rand = randint(min, max);
@@ -17,22 +19,22 @@ function generatePattern(length = 5, min = 1, max = 16) {
 
 function applyCorrectClickStyle(num) {
   const btn = document.getElementById(`btn${num}`);
-  btn.classList.add("clicked-correct");
+  btn.classList.add(CLASSNAMES.win);
 }
 
 function applyWrongClickStyle(num) {
   const btn = document.getElementById(`btn${num}`);
-  btn.classList.add("clicked-wrong");
+  btn.classList.add(CLASSNAMES.loss);
 }
 
 function previewSequence(sequence, onDone) {
   sequence.forEach((num, idx) => {
     setTimeout(() => {
       const btn = document.getElementById(`btn${num}`);
-      btn.classList.add("preview-glow");
+      btn.classList.add(CLASSNAMES.glow);
 
       setTimeout(() => {
-        btn.classList.remove("preview-glow");
+        btn.classList.remove(CLASSNAMES.glow);
       }, 500);
     }, idx * 1000);
   });
@@ -44,8 +46,7 @@ function previewSequence(sequence, onDone) {
 
 // 🎉 Show win message and restart button
 function afterUserWon() {
-  const messageArea = document.getElementById("result-message");
-  messageArea.innerHTML = "";
+  const messageArea = document.getElementById(CLASSNAMES.result);
 
   const strong = document.createElement("strong");
   strong.textContent = "🎉 You won!";
@@ -61,6 +62,8 @@ function afterUserWon() {
     import("./main.js").then((mod) => mod.restartApp());
   });
 
+  console.log(messageArea.innerHTML);
+
   messageArea.appendChild(strong);
   messageArea.appendChild(br);
   messageArea.appendChild(againButton);
@@ -68,8 +71,7 @@ function afterUserWon() {
 
 // ❌ Show loss message and restart button
 function afterUserLost() {
-  const messageArea = document.getElementById("result-message");
-  messageArea.innerHTML = "";
+  const messageArea = document.getElementById(CLASSNAMES.result);
 
   const strong = document.createElement("strong");
   strong.textContent = "❌ Wrong button. You lost.";
@@ -85,9 +87,15 @@ function afterUserLost() {
     import("./main.js").then((mod) => mod.restartApp());
   });
 
+  console.log(messageArea.innerHTML);
+
   messageArea.appendChild(strong);
   messageArea.appendChild(br);
   messageArea.appendChild(tryAgainButton);
+}
+
+function isSequenceCorrect(partial, correct) {
+  return partial.every((val, idx) => val === correct[idx]);
 }
 
 export {
@@ -97,4 +105,5 @@ export {
   previewSequence,
   afterUserWon,
   afterUserLost,
+  isSequenceCorrect,
 };
