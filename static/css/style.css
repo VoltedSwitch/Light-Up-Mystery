@@ -7,7 +7,8 @@ h1 {
 
 .intro {
   text-align: center;
-  margin-top: 10px;
+  margin-top: 50px;
+  margin-bottom: 30px;
 }
 
 .loading-text {
@@ -19,20 +20,21 @@ h1 {
 
 .instructions {
   max-width: 600px;
-  margin: 20px auto;
+  margin: 0 auto 36px;
   text-align: justify;
-  line-height: 1.6;
-  font-size: 24px;
+  line-height: 1.8;
+  font-size: 19px;
 }
 
 .start-button {
-  padding: 15px 30px;
+  padding: 15px 40px;
   font-size: 18px;
   background-color: teal;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  margin-top: 20px;
 }
 
 .grid-container {
@@ -44,6 +46,7 @@ h1 {
   padding: 30px;
   transition: background-color 2 ease;
 }
+
 button {
   padding: 30px;
   font-size: 18px;
