@@ -72,7 +72,7 @@ function afterUserLost(correctSequence) {
   p1.innerHTML = "<strong>❌ You lost!</strong>";
 
   const p2 = document.createElement("p");
-  p2.textContent = `Correct Pattern: ${correctSequence.join(", ")}`;
+  p2.textContent = `Correct Pattern: ${correctSequence.join(" --> ")}`;
 
   const tryAgainButton = document.createElement("button");
   tryAgainButton.textContent = "Try Again?";
