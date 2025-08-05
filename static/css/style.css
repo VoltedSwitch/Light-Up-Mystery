@@ -18,6 +18,15 @@ h1 {
   text-align: center;
 }
 
+.display-streak {
+  position: absolute;
+  top: 22px;
+  left: 50px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #222;
+}
+
 .instructions {
   max-width: 600px;
   margin: 0 auto 36px;
@@ -88,13 +97,4 @@ button {
   display: block;
   color: red;
   font-weight: bold;
-}
-
-.display-streak {
-  position: absolute;
-  top: 22px;
-  left: 50px;
-  font-size: 40px;
-  font-weight: bold;
-  color: #222;
 }

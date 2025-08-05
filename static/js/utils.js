@@ -6,7 +6,7 @@ function randint(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function generatePattern(length = 5, min = 1, max = 16) {
+function generatePattern(length = 2, min = 1, max = 16) {
   const pattern = [];
   while (pattern.length < length) {
     const rand = randint(min, max);
@@ -48,11 +48,8 @@ function previewSequence(sequence, onDone) {
 function afterUserWon() {
   const messageArea = document.getElementById(CLASSNAMES.result);
 
-  const strong = document.createElement("strong");
-  strong.textContent = "🎉 You won!";
-  strong.style.display = "block";
-
-  const br = document.createElement("br");
+  const p = document.createElement("p");
+  p.innerHTML = "<strong>🎉 You won!</strong>";
 
   const againButton = document.createElement("button");
   againButton.textContent = "Puzzle Again?";
@@ -64,20 +61,18 @@ function afterUserWon() {
 
   console.log(messageArea.innerHTML);
 
-  messageArea.appendChild(strong);
-  messageArea.appendChild(br);
+  messageArea.appendChild(p);
   messageArea.appendChild(againButton);
 }
 
-// ❌ Show loss message and restart button
-function afterUserLost() {
+function afterUserLost(correctSequence) {
   const messageArea = document.getElementById(CLASSNAMES.result);
+  // "❌ Wrong button. You lost."
+  const p1 = document.createElement("p");
+  p1.innerHTML = "<strong>❌ You lost!</strong>";
 
-  const strong = document.createElement("strong");
-  strong.textContent = "❌ Wrong button. You lost.";
-  strong.style.display = "block";
-
-  const br = document.createElement("br");
+  const p2 = document.createElement("p");
+  p2.textContent = `Correct Pattern: ${correctSequence.join(", ")}`;
 
   const tryAgainButton = document.createElement("button");
   tryAgainButton.textContent = "Try Again?";
@@ -89,8 +84,8 @@ function afterUserLost() {
 
   console.log(messageArea.innerHTML);
 
-  messageArea.appendChild(strong);
-  messageArea.appendChild(br);
+  messageArea.appendChild(p1);
+  messageArea.appendChild(p2);
   messageArea.appendChild(tryAgainButton);
 }
 

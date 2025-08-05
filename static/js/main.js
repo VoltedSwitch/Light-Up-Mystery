@@ -41,7 +41,7 @@ function handleGridClick(num) {
   } else {
     isInputAllowed = false;
     applyWrongClickStyle(num);
-    afterUserLost();
+    afterUserLost(correctSequence);
     streak = 0;
     displayStreak.textContent = "";
   }
