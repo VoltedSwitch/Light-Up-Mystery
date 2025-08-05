@@ -13,4 +13,4 @@ Test your short-term memory by remembering and repeating the glowing pattern of 
 - 💥 Win/Loss messages with correct pattern reveal on loss
 - 🔄 "Try Again" / "Puzzle Again" buttons for full restart
 - 🔥 Tracks win streaks
-- 🎯 Built using modern modular JavaScript and Flask
+- 🎯 Built using modern JavaScript and Flask
