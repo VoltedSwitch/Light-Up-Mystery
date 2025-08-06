@@ -49,7 +49,7 @@ function afterUserWon() {
   const messageArea = document.getElementById(CLASSNAMES.result);
 
   const p = document.createElement("p");
-  p.innerHTML = "<strong>🎉 You won!</strong>";
+  p.innerHTML = "<strong>🎉 You clicked all correct buttons! Pattern complete!</strong>";
 
   const againButton = document.createElement("button");
   againButton.textContent = "Puzzle Again?";
@@ -69,7 +69,7 @@ function afterUserLost(correctSequence) {
   const messageArea = document.getElementById(CLASSNAMES.result);
   // "❌ Wrong button. You lost."
   const p1 = document.createElement("p");
-  p1.innerHTML = "<strong>❌ You lost!</strong>";
+  p1.innerHTML = "<strong>❌ You clicked on the wrong button! Wrong pattern!</strong>";
 
   const p2 = document.createElement("p");
   p2.textContent = `Correct Pattern: ${correctSequence.join(" --> ")}`;
