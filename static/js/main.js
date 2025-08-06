@@ -21,10 +21,10 @@ let streak = 0;
 
 let length = startingLength;
 let min = 1;
-let max = 16;
+let maxButtons = 16;
 
 let userSequence = [];
-let correctSequence = generatePattern(length, min, max);
+let correctSequence = generatePattern(length, min, maxButtons);
 let isInputAllowed = false;
 
 // 🌟 Click handler logic
@@ -50,9 +50,15 @@ function handleGridClick(num) {
       }
       if (turnCounter === maxTurns) {
         turnCounter = 0;
-        length++;
+        if (length < maxButtons) {
+          length++;
+        }
       }
-      displayStreak.textContent = `🔥 ${streak}`;
+      if (length < maxButtons) {
+        displayStreak.textContent = `🔥 ${streak}`;
+      } else {
+        displayStreak.textContent = `🧠🔥✨ ${streak}`;
+      }
     }
   } else {
     isInputAllowed = false;
@@ -109,7 +115,7 @@ function restartApp() {
   }
 
   userSequence = [];
-  correctSequence = generatePattern(length, min, max);
+  correctSequence = generatePattern(length, min, maxButtons);
   isInputAllowed = false;
 
   setTimeout(() => {
