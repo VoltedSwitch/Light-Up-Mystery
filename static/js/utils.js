@@ -6,7 +6,7 @@ function randint(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function generatePattern(length = 5, min = 1, max = 16) {
+function generatePattern(length, min, max) {
   const pattern = [];
   while (pattern.length < length) {
     const rand = randint(min, max);
@@ -60,8 +60,6 @@ function afterUserWon() {
     import("./main.js").then((mod) => mod.restartApp());
   });
 
-  console.log(messageArea.innerHTML);
-
   messageArea.appendChild(p);
   messageArea.appendChild(againButton);
 }
@@ -85,8 +83,6 @@ function afterUserLost(correctSequence) {
   tryAgainButton.addEventListener("click", () => {
     import("./main.js").then((mod) => mod.restartApp());
   });
-
-  console.log(messageArea.innerHTML);
 
   messageArea.appendChild(p1);
   messageArea.appendChild(p2);

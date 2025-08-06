@@ -13,9 +13,18 @@ import {
 import { CLASSNAMES } from "./constants.js";
 
 // 🌟 Global puzzle state
+const startingLength = 3;
+const maxTurns = 2;
+
+let turnCounter = 0;
 let streak = 0;
+
+let length = startingLength;
+let min = 1;
+let max = 16;
+
 let userSequence = [];
-let correctSequence = generatePattern();
+let correctSequence = generatePattern(length, min, max);
 let isInputAllowed = false;
 
 // 🌟 Click handler logic
@@ -36,6 +45,13 @@ function handleGridClick(num) {
       isInputAllowed = false;
       afterUserWon();
       streak++;
+      if (turnCounter < maxTurns) {
+        turnCounter++;
+      }
+      if (turnCounter === maxTurns) {
+        turnCounter = 0;
+        length++;
+      }
       displayStreak.textContent = `🔥 ${streak}`;
     }
   } else {
@@ -43,6 +59,8 @@ function handleGridClick(num) {
     applyWrongClickStyle(num);
     afterUserLost(correctSequence);
     streak = 0;
+    turnCounter = 0;
+    length = startingLength;
     displayStreak.textContent = "";
   }
 }
@@ -91,7 +109,7 @@ function restartApp() {
   }
 
   userSequence = [];
-  correctSequence = generatePattern();
+  correctSequence = generatePattern(length, min, max);
   isInputAllowed = false;
 
   setTimeout(() => {
