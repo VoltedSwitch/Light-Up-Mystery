@@ -10,7 +10,7 @@ Test your short-term memory by remembering and repeating the glowing pattern of 
 - 🎲 Randomly generated button patterns
 - ✨ Glowing button preview animation
 - ✅ Click-based input with correct/incorrect feedback
-- 💥 Win/Loss messages with correct pattern reveal on loss
+- 💥 Descriptive messages for win/Loss with correct pattern reveal on loss
 - 🔄 "Try Again" / "Puzzle Again" buttons for full restart
 - 🔥 Tracks win streaks
 - 🎯 Built using modern JavaScript and Flask
