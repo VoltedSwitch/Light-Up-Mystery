@@ -20,11 +20,18 @@ h1 {
 
 .display-streak {
   position: absolute;
-  top: 22px;
-  left: 50px;
+  top: 75px;
+  left: 95px;
   font-size: 40px;
   font-weight: bold;
   color: #222;
+}
+
+.chances {
+  position: absolute;
+  top: 75px;
+  right: 105px;
+  font-size: 50px;
 }
 
 .instructions {

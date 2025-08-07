@@ -11,4 +11,5 @@ export const CLASSNAMES = {
   startButton: "start-btn",
   streak: "display-streak",
   beforeStarting: "before-starting",
+  hearts: "chances"
 };

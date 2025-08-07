@@ -45,15 +45,18 @@ function previewSequence(sequence, onDone) {
 }
 
 // 🎉 Show win message and restart button
-function afterUserWon() {
+function afterUserWon(correctSequence) {
   const messageArea = document.getElementById(CLASSNAMES.result);
 
   const p = document.createElement("p");
-  p.innerHTML =
-    "<strong>🎉 You clicked all correct buttons! Pattern complete!</strong>";
+  const buttonsOrButton =
+    correctSequence.length === 1
+      ? "<strong>🎉 You clicked on the correct button! Pattern complete!</strong>"
+      : "<strong>🎉 You clicked on all correct buttons! Pattern complete!</strong>";
+  p.innerHTML = buttonsOrButton;
 
   const againButton = document.createElement("button");
-  againButton.textContent = "Puzzle Again?";
+  againButton.innerText = "Puzzle Again?";
   againButton.id = "puzzle-again";
 
   againButton.addEventListener("click", () => {
@@ -77,11 +80,11 @@ function afterUserLost(correctSequence) {
   )}`;
 
   const tryAgainButton = document.createElement("button");
-  tryAgainButton.textContent = "Try Again?";
+  tryAgainButton.innerText = "Try Again?";
   tryAgainButton.id = "try-again";
 
   tryAgainButton.addEventListener("click", () => {
-    import("./main.js").then((mod) => mod.restartApp());
+    import("./main.js").then((mod) => mod.restartApp(true));
   });
 
   messageArea.appendChild(p1);

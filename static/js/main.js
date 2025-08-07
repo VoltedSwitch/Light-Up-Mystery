@@ -35,10 +35,12 @@ const turnsToPatternIncrement = {
 const startingSequenceLength = 1;
 const startingButton = 1;
 const maxButtons = 16;
+const startingChances = 3;
 
 let currentTurns = turnsToPatternIncrement[startingSequenceLength];
 let turnCounter = 0;
 let streak = 0;
+let chances = startingChances;
 let currentSequenceLength = startingSequenceLength;
 let userSequence = [];
 let correctSequence = generatePattern(
@@ -47,34 +49,21 @@ let correctSequence = generatePattern(
   maxButtons
 );
 let isInputAllowed = false;
-
 // 🚨 Helpers
-function resetState() {
-  streak = 0;
-  turnCounter = 0;
-  currentSequenceLength = startingSequenceLength;
-  currentTurns = turnsToPatternIncrement[startingSequenceLength];
-  displayStreak.textContent = "";
+function updateChancesDisplay() {
+  const full = "❤️".repeat(chances);
+  const empty = "🖤".repeat(startingChances - chances);
+  document.getElementById(CLASSNAMES.hearts).innerText = full + empty;
 }
 
-function prepareNextRound() {
-  streak++;
-  if (turnCounter < currentTurns) {
-    turnCounter++;
-  }
-  if (turnCounter === currentTurns) {
-    turnCounter = 0;
-    if (currentSequenceLength < maxButtons) {
-      currentSequenceLength++;
-      currentTurns = turnsToPatternIncrement[currentSequenceLength];
-    }
-  }
+function updateStreakDisplay() {
   if (currentSequenceLength < maxButtons) {
-    displayStreak.textContent = `🔥 ${streak}`;
+    displayStreak.innerText = `🔥 ${streak}`;
   } else {
-    displayStreak.textContent = `🧠🔥✨ ${streak}`;
+    displayStreak.innerText = `🧠🔥✨ ${streak}`;
   }
 }
+
 // 🌟 Click handler logic
 function handleGridClick(num) {
   if (!isInputAllowed) return;
@@ -90,27 +79,55 @@ function handleGridClick(num) {
 
     if (isComplete && isSequenceCorrect(userSequence, correctSequence)) {
       isInputAllowed = false;
-      afterUserWon();
-      prepareNextRound();
+      afterUserWon(correctSequence);
+      streak++;
+      if (turnCounter < currentTurns) {
+        turnCounter++;
+      }
+      if (turnCounter === currentTurns) {
+        turnCounter = 0;
+        if (currentSequenceLength < maxButtons) {
+          currentSequenceLength++;
+          currentTurns = turnsToPatternIncrement[currentSequenceLength];
+        }
+      }
+      updateStreakDisplay();
+      updateChancesDisplay();
     }
   } else {
     isInputAllowed = false;
+    if (chances > 0 && streak > 0) {
+      chances--;
+    }
+    if (chances === 0) {
+      streak = 0;
+      turnCounter = 0;
+      currentSequenceLength = startingSequenceLength;
+      currentTurns = turnsToPatternIncrement[startingSequenceLength];
+
+      const displayStreak = document.getElementById(CLASSNAMES.streak);
+      displayStreak.innerText = "";
+      const displayChances = document.getElementById(CLASSNAMES.hearts);
+      displayChances.innerText = "";
+    }
+    if (streak > 0) {
+      updateChancesDisplay();
+    }
     applyWrongClickStyle(num);
     afterUserLost(correctSequence);
-    resetState();
   }
 }
 
 // 🌟 Start puzzle on initial button click
 const button = document.getElementById(CLASSNAMES.startButton);
 button.addEventListener("click", () => {
-  document.getElementById("intro").remove();
+  document.getElementById(CLASSNAMES.beforeStarting).remove();
 
   const loadingText = document.getElementById(CLASSNAMES.loading);
-  loadingText.textContent = "Loading...";
+  loadingText.innerText = "Loading...";
 
   setTimeout(() => {
-    loadingText.textContent = "";
+    loadingText.innerText = "";
 
     const grid = document.getElementById(CLASSNAMES.grid);
     grid.style.display = "grid";
@@ -127,7 +144,7 @@ button.addEventListener("click", () => {
 });
 
 // 🔄 Restart logic used by utils.js buttons
-function restartApp() {
+function restartApp(userLost = false) {
   const messageArea = document.getElementById(CLASSNAMES.result);
   if (messageArea) {
     messageArea.innerHTML = "";
@@ -137,7 +154,7 @@ function restartApp() {
   grid.style.display = "none";
 
   const loadingText = document.getElementById(CLASSNAMES.loading);
-  loadingText.textContent = "Loading...";
+  loadingText.innerText = "Loading...";
 
   for (let i = 1; i <= 16; i++) {
     const btn = document.getElementById(`btn${i}`);
@@ -151,9 +168,12 @@ function restartApp() {
     maxButtons
   );
   isInputAllowed = false;
+  if (userLost && streak === 0) {
+    chances = startingChances;
+  }
 
   setTimeout(() => {
-    loadingText.textContent = "";
+    loadingText.innerText = "";
     grid.style.display = "grid";
 
     previewSequence(correctSequence, () => {
