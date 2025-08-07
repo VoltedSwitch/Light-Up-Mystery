@@ -16,21 +16,23 @@ import { CLASSNAMES } from "./constants.js";
 const displayStreak = document.getElementById(CLASSNAMES.streak);
 // Syntax: buttons: turns
 const turnsToPatternIncrement = {
-  3: 2,
+  1: 3,
+  2: 3,
+  3: 3,
   4: 3,
   5: 3,
   6: 3,
   7: 4,
   8: 4,
   9: 4,
-  10: 5,
-  11: 5,
+  10: 4,
+  11: 4,
   12: 5,
-  13: 6,
-  14: 6,
-  15: 6,
+  13: 5,
+  14: 5,
+  15: 5,
 };
-const startingSequenceLength = 3;
+const startingSequenceLength = 1;
 const startingButton = 1;
 const maxButtons = 16;
 
