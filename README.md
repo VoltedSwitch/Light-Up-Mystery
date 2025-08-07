@@ -9,7 +9,7 @@ Test your short-term memory by remembering and repeating the glowing pattern of 
 
 - 🎲 Randomly generated button patterns
 - ✨ Glowing button preview animation
-- ➕ Difficulty increase after every 2 turns of winning
+- ➕ Difficulty increases after a few turns (number of turns are different for each amount buttons)
 - ✅ Click-based input with correct/incorrect feedback
 - 💥 Descriptive messages for win/Loss with correct pattern reveal on loss
 - 🔄 "Try Again" / "Puzzle Again" buttons for full restart

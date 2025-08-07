@@ -13,27 +13,72 @@ import {
 import { CLASSNAMES } from "./constants.js";
 
 // 🌟 Global puzzle state
-const startingLength = 3;
-const maxTurns = 2;
+const displayStreak = document.getElementById(CLASSNAMES.streak);
+// Syntax: buttons: turns
+const turnsToPatternIncrement = {
+  3: 2,
+  4: 3,
+  5: 3,
+  6: 3,
+  7: 4,
+  8: 4,
+  9: 4,
+  10: 5,
+  11: 5,
+  12: 5,
+  13: 6,
+  14: 6,
+  15: 6,
+};
+const startingSequenceLength = 3;
+const startingButton = 1;
+const maxButtons = 16;
 
+let currentTurns = turnsToPatternIncrement[startingSequenceLength];
 let turnCounter = 0;
 let streak = 0;
-
-let length = startingLength;
-let min = 1;
-let maxButtons = 16;
-
+let currentSequenceLength = startingSequenceLength;
 let userSequence = [];
-let correctSequence = generatePattern(length, min, maxButtons);
+let correctSequence = generatePattern(
+  currentSequenceLength,
+  startingButton,
+  maxButtons
+);
 let isInputAllowed = false;
 
+// 🚨 Helpers
+function resetState() {
+  streak = 0;
+  turnCounter = 0;
+  currentSequenceLength = startingSequenceLength;
+  currentTurns = turnsToPatternIncrement[startingSequenceLength];
+  displayStreak.textContent = "";
+}
+
+function prepareNextRound() {
+  streak++;
+  if (turnCounter < currentTurns) {
+    turnCounter++;
+  }
+  if (turnCounter === currentTurns) {
+    turnCounter = 0;
+    if (currentSequenceLength < maxButtons) {
+      currentSequenceLength++;
+      currentTurns = turnsToPatternIncrement[currentSequenceLength];
+    }
+  }
+  if (currentSequenceLength < maxButtons) {
+    displayStreak.textContent = `🔥 ${streak}`;
+  } else {
+    displayStreak.textContent = `🧠🔥✨ ${streak}`;
+  }
+}
 // 🌟 Click handler logic
 function handleGridClick(num) {
   if (!isInputAllowed) return;
   if (userSequence.includes(num)) return;
 
   const tempSequence = [...userSequence, num];
-  const displayStreak = document.getElementById(CLASSNAMES.streak);
 
   if (isSequenceCorrect(tempSequence, correctSequence)) {
     applyCorrectClickStyle(num);
@@ -41,33 +86,16 @@ function handleGridClick(num) {
 
     const isComplete = userSequence.length === correctSequence.length;
 
-    if (isComplete && isSequenceCorrect(tempSequence, correctSequence)) {
+    if (isComplete && isSequenceCorrect(userSequence, correctSequence)) {
       isInputAllowed = false;
       afterUserWon();
-      streak++;
-      if (turnCounter < maxTurns) {
-        turnCounter++;
-      }
-      if (turnCounter === maxTurns) {
-        turnCounter = 0;
-        if (length < maxButtons) {
-          length++;
-        }
-      }
-      if (length < maxButtons) {
-        displayStreak.textContent = `🔥 ${streak}`;
-      } else {
-        displayStreak.textContent = `🧠🔥✨ ${streak}`;
-      }
+      prepareNextRound();
     }
   } else {
     isInputAllowed = false;
     applyWrongClickStyle(num);
     afterUserLost(correctSequence);
-    streak = 0;
-    turnCounter = 0;
-    length = startingLength;
-    displayStreak.textContent = "";
+    resetState();
   }
 }
 
@@ -115,7 +143,11 @@ function restartApp() {
   }
 
   userSequence = [];
-  correctSequence = generatePattern(length, min, maxButtons);
+  correctSequence = generatePattern(
+    currentSequenceLength,
+    startingButton,
+    maxButtons
+  );
   isInputAllowed = false;
 
   setTimeout(() => {
