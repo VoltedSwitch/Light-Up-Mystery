@@ -13,7 +13,6 @@ import {
 import { CLASSNAMES } from "./constants.js";
 
 // 🌟 Global puzzle state
-const displayStreak = document.getElementById(CLASSNAMES.streak);
 // Syntax: buttons: turns
 const turnsToPatternIncrement = {
   1: 3,
@@ -57,11 +56,21 @@ function updateChancesDisplay() {
 }
 
 function updateStreakDisplay() {
+  const displayStreak = document.getElementById(CLASSNAMES.streak);
   if (currentSequenceLength < maxButtons) {
     displayStreak.innerText = `🔥 ${streak}`;
   } else {
     displayStreak.innerText = `🧠🔥✨ ${streak}`;
   }
+}
+
+function animateStreak() {
+  const displayStreak = document.getElementById(CLASSNAMES.streak);
+  displayStreak.classList.add(CLASSNAMES.animationForStreak);
+  setTimeout(
+    () => displayStreak.classList.remove(CLASSNAMES.animationForStreak),
+    500
+  );
 }
 
 // 🌟 Click handler logic
@@ -92,6 +101,7 @@ function handleGridClick(num) {
         }
       }
       updateStreakDisplay();
+      animateStreak();
       updateChancesDisplay();
     }
   } else {
