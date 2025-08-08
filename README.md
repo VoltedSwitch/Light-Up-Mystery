@@ -13,5 +13,5 @@ Test your short-term memory by remembering and repeating the glowing pattern of 
 - ✅ Click-based input with correct/incorrect feedback
 - 💥 Descriptive messages for win/Loss with correct pattern reveal on loss
 - 🔄 "Try Again" / "Puzzle Again" buttons for full restart
-- 🔥 Tracks win streaks & heart ❤️❤️❤️❤️❤️❤️ system for preserving streak until 6 mistakes
+- 🔥 Tracks win streaks & heart ❤️❤️❤️ system for preserving streak until 3 mistakes
 - 🎯 Built using modern JavaScript and Flask

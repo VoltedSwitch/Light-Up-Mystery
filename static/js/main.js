@@ -34,7 +34,7 @@ const turnsToPatternIncrement = {
 const startingSequenceLength = 1;
 const startingButton = 1;
 const maxButtons = 16;
-const startingChances = 6;
+const startingChances = 3;
 
 let currentTurns = turnsToPatternIncrement[startingSequenceLength];
 let turnCounter = 0;
