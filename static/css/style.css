@@ -129,7 +129,18 @@ h1 {
   max-width: 400px;
   margin: 0 auto;
   padding: 30px;
-  transition: background-color 2 ease;
+  transition: background-color 2s ease;
+}
+
+.grid-container button {
+  user-select: none;
+  touch-action: manipulation;
+  transition: transform 0.1s ease;
+}
+
+.grid-container button:active {
+  transform: scale(0.95);
+  background-color: darkgreen;
 }
 
 button {
