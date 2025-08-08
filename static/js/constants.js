@@ -10,9 +10,9 @@ export const CLASSNAMES = {
   loading: "loading-text",
   startButton: "start-btn",
   streak: "display-streak",
-  animationForStreak: "animate-streak",
   beforeStarting: "before-starting",
   hearts: "display-chances",
   bounce: "bounce-effect",
-  fadeAway: "fade-out"
+  shake: "shake-effect",
+  fadeAway: "fade-out",
 };

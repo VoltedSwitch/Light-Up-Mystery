@@ -66,19 +66,16 @@ function updateChancesDisplay() {
 
 function animateStreak() {
   const displayStreak = document.getElementById(CLASSNAMES.streak);
-  displayStreak.classList.add(CLASSNAMES.animationForStreak);
-  setTimeout(
-    () => displayStreak.classList.remove(CLASSNAMES.animationForStreak),
-    500
-  );
+  displayStreak.classList.add(CLASSNAMES.bounce);
+  setTimeout(() => displayStreak.classList.remove(CLASSNAMES.bounce), 500);
 }
 
 function animateChances() {
   const displayChances = document.getElementById(CLASSNAMES.hearts);
-  displayChances.classList.add(CLASSNAMES.bounce);
+  displayChances.classList.add(CLASSNAMES.shake);
 
   setTimeout(() => {
-    displayChances.classList.remove(CLASSNAMES.bounce);
+    displayChances.classList.remove(CLASSNAMES.shake);
   }, 500);
 }
 

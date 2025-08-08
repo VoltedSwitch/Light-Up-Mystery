@@ -40,6 +40,29 @@ h1 {
   color: #222;
 }
 
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.bounce-effect {
+  animation: bounce 0.5s ease;
+}
+
+.display-chances {
+  position: absolute;
+  top: 75px;
+  right: 105px;
+  font-size: 50px;
+}
+
 @keyframes shake {
   0% {
     transform: translateX(0);
@@ -76,31 +99,8 @@ h1 {
   }
 }
 
-.animate-streak {
+.shake-effect {
   animation: shake 0.5s ease;
-}
-
-.display-chances {
-  position: absolute;
-  top: 75px;
-  right: 105px;
-  font-size: 50px;
-}
-
-@keyframes bounce {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
-.bounce-effect {
-  animation: bounce 0.5s ease;
 }
 
 .instructions {
