@@ -67,11 +67,27 @@ h1 {
   animation: shake 0.5s ease;
 }
 
-.chances {
+.display-chances {
   position: absolute;
   top: 75px;
   right: 105px;
   font-size: 50px;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.bounce-effect {
+  animation: bounce 0.5s ease;
 }
 
 .instructions {

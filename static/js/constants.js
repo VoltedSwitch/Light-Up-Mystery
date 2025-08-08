@@ -12,5 +12,6 @@ export const CLASSNAMES = {
   streak: "display-streak",
   animationForStreak: "animate-streak",
   beforeStarting: "before-starting",
-  hearts: "chances",
+  hearts: "display-chances",
+  bounce: "bounce-effect",
 };

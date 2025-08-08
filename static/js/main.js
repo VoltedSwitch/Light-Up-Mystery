@@ -49,12 +49,6 @@ let correctSequence = generatePattern(
 );
 let isInputAllowed = false;
 // 🚨 Helpers
-function updateChancesDisplay() {
-  const full = "❤️".repeat(chances);
-  const empty = "🖤".repeat(startingChances - chances);
-  document.getElementById(CLASSNAMES.hearts).innerText = full + empty;
-}
-
 function updateStreakDisplay() {
   const displayStreak = document.getElementById(CLASSNAMES.streak);
   if (currentSequenceLength < maxButtons) {
@@ -64,6 +58,12 @@ function updateStreakDisplay() {
   }
 }
 
+function updateChancesDisplay() {
+  const full = "❤️".repeat(chances);
+  const empty = "🖤".repeat(startingChances - chances);
+  document.getElementById(CLASSNAMES.hearts).innerText = full + empty;
+}
+
 function animateStreak() {
   const displayStreak = document.getElementById(CLASSNAMES.streak);
   displayStreak.classList.add(CLASSNAMES.animationForStreak);
@@ -71,6 +71,15 @@ function animateStreak() {
     () => displayStreak.classList.remove(CLASSNAMES.animationForStreak),
     500
   );
+}
+
+function animateChances() {
+  const hearts = document.getElementById(CLASSNAMES.hearts);
+  hearts.classList.add(CLASSNAMES.bounce);
+
+  setTimeout(() => {
+    hearts.classList.remove(CLASSNAMES.bounce);
+  }, 500);
 }
 
 // 🌟 Click handler logic
@@ -108,6 +117,8 @@ function handleGridClick(num) {
     isInputAllowed = false;
     if (chances > 0 && streak > 0) {
       chances--;
+      updateChancesDisplay();
+      animateChances();
     }
     if (chances === 0) {
       streak = 0;
@@ -119,9 +130,6 @@ function handleGridClick(num) {
       displayStreak.innerText = "";
       const displayChances = document.getElementById(CLASSNAMES.hearts);
       displayChances.innerText = "";
-    }
-    if (streak > 0) {
-      updateChancesDisplay();
     }
     applyWrongClickStyle(num);
     afterUserLost(correctSequence);
