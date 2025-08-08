@@ -97,6 +97,16 @@ function fadeAwayStreakAndChances() {
   }, 500);
 }
 
+function setInputAllowed(allowed) {
+  isInputAllowed = allowed;
+  const grid = document.getElementById(CLASSNAMES.grid);
+  if (allowed) {
+    grid.classList.remove("disabled");
+  } else {
+    grid.classList.add("disabled");
+  }
+}
+
 // 🌟 Click handler logic
 function handleGridClick(num) {
   if (!isInputAllowed) return;
@@ -111,7 +121,7 @@ function handleGridClick(num) {
     const isComplete = userSequence.length === correctSequence.length;
 
     if (isComplete && isSequenceCorrect(userSequence, correctSequence)) {
-      isInputAllowed = false;
+      setInputAllowed(false);
       afterUserWon(correctSequence);
       streak++;
       if (turnCounter < currentTurns) {
@@ -129,7 +139,7 @@ function handleGridClick(num) {
       updateChancesDisplay();
     }
   } else {
-    isInputAllowed = false;
+    setInputAllowed(false);
     if (chances > 0 && streak > 0) {
       chances--;
       updateChancesDisplay();
@@ -166,9 +176,15 @@ button.addEventListener("click", () => {
       btn.addEventListener("click", () => handleGridClick(i));
     }
 
-    previewSequence(correctSequence, () => {
-      isInputAllowed = true;
-    });
+    previewSequence(
+      correctSequence,
+      () => {
+        setInputAllowed(false);
+      },
+      () => {
+        setInputAllowed(true);
+      }
+    );
   }, 2000);
 });
 
@@ -205,9 +221,15 @@ function restartApp(userLost = false) {
     loadingText.innerText = "";
     grid.style.display = "grid";
 
-    previewSequence(correctSequence, () => {
-      isInputAllowed = true;
-    });
+    previewSequence(
+      correctSequence,
+      () => {
+        setInputAllowed(false);
+      },
+      () => {
+        setInputAllowed(true);
+      }
+    );
   }, 2000);
 }
 

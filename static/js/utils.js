@@ -27,7 +27,8 @@ function applyWrongClickStyle(num) {
   btn.classList.add(CLASSNAMES.loss);
 }
 
-function previewSequence(sequence, onDone) {
+function previewSequence(sequence, beforeStart, onDone) {
+  beforeStart();
   sequence.forEach((num, idx) => {
     setTimeout(() => {
       const btn = document.getElementById(`btn${num}`);
