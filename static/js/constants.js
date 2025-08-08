@@ -14,4 +14,5 @@ export const CLASSNAMES = {
   beforeStarting: "before-starting",
   hearts: "display-chances",
   bounce: "bounce-effect",
+  fadeAway: "fade-out"
 };

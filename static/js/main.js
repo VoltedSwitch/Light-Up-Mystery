@@ -74,11 +74,29 @@ function animateStreak() {
 }
 
 function animateChances() {
-  const hearts = document.getElementById(CLASSNAMES.hearts);
-  hearts.classList.add(CLASSNAMES.bounce);
+  const displayChances = document.getElementById(CLASSNAMES.hearts);
+  displayChances.classList.add(CLASSNAMES.bounce);
 
   setTimeout(() => {
-    hearts.classList.remove(CLASSNAMES.bounce);
+    displayChances.classList.remove(CLASSNAMES.bounce);
+  }, 500);
+}
+
+function fadeAwayStreakAndChances() {
+  const displayStreak = document.getElementById(CLASSNAMES.streak);
+  const displayChances = document.getElementById(CLASSNAMES.hearts);
+
+  setTimeout(() => {
+    displayChances.classList.add(CLASSNAMES.fadeAway);
+    displayStreak.classList.add(CLASSNAMES.fadeAway);
+
+    setTimeout(() => {
+      displayStreak.innerText = "";
+      displayChances.innerText = "";
+
+      displayChances.classList.remove(CLASSNAMES.fadeAway);
+      displayStreak.classList.remove(CLASSNAMES.fadeAway);
+    }, 500);
   }, 500);
 }
 
@@ -125,11 +143,7 @@ function handleGridClick(num) {
       turnCounter = 0;
       currentSequenceLength = startingSequenceLength;
       currentTurns = turnsToPatternIncrement[startingSequenceLength];
-
-      const displayStreak = document.getElementById(CLASSNAMES.streak);
-      displayStreak.innerText = "";
-      const displayChances = document.getElementById(CLASSNAMES.hearts);
-      displayChances.innerText = "";
+      fadeAwayStreakAndChances();
     }
     applyWrongClickStyle(num);
     afterUserLost(correctSequence);
