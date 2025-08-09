@@ -120,6 +120,7 @@ function handleGridClick(num) {
   if (!isInputAllowed) return;
   if (userSequence.includes(num)) return;
 
+  buttonClickSound.currentTime = 0;
   buttonClickSound.play();
 
   const tempSequence = [...userSequence, num];
