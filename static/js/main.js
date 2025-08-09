@@ -48,9 +48,13 @@ let correctSequence = generatePattern(
   maxButtons
 );
 let isInputAllowed = false;
+let heartDropSound = new Audio("/static/sounds/heart-drop.mp3");
+let streakIncreaseSound = new Audio("/static/sounds/streak-up.mp3");
+
 // 🚨 Helpers
 function updateStreakDisplay() {
   const displayStreak = document.getElementById(CLASSNAMES.streak);
+  streakIncreaseSound.play();
   if (currentSequenceLength < maxButtons) {
     displayStreak.innerText = `🔥 ${streak}`;
   } else {
@@ -58,9 +62,12 @@ function updateStreakDisplay() {
   }
 }
 
-function updateChancesDisplay() {
+function updateChancesDisplay(playSound = false) {
   const full = "❤️".repeat(chances);
   const empty = "🖤".repeat(startingChances - chances);
+  if (playSound) {
+    heartDropSound.play();
+  }
   document.getElementById(CLASSNAMES.hearts).innerText = full + empty;
 }
 
@@ -142,7 +149,7 @@ function handleGridClick(num) {
     setInputAllowed(false);
     if (chances > 0 && streak > 0) {
       chances--;
-      updateChancesDisplay();
+      updateChancesDisplay(true);
       animateChances();
     }
     if (chances === 0) {
