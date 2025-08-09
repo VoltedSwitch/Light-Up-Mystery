@@ -170,6 +170,7 @@ function handleGridClick(num) {
 // 🌟 Start puzzle on initial button click
 const button = document.getElementById(CLASSNAMES.startButton);
 button.addEventListener("click", () => {
+  buttonClickSound.play();
   document.getElementById(CLASSNAMES.beforeStarting).remove();
 
   const loadingText = document.getElementById(CLASSNAMES.loading);
