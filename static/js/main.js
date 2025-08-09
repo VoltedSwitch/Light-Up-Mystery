@@ -52,6 +52,14 @@ let heartDropSound = new Audio("/static/sounds/heart-drop.mp3");
 let streakIncreaseSound = new Audio("/static/sounds/streak-up.mp3");
 let buttonClickSound = new Audio("/static/sounds/button-click.mp3");
 
+// 🎵 Add sound for all UI buttons with the press effect
+document.querySelectorAll(".button-press-effect").forEach((button) => {
+  button.addEventListener("click", () => {
+    buttonClickSound.currentTime = 0;
+    buttonClickSound.play();
+  });
+});
+
 // 🚨 Helpers
 function updateStreakDisplay() {
   const displayStreak = document.getElementById(CLASSNAMES.streak);
@@ -120,9 +128,6 @@ function handleGridClick(num) {
   if (!isInputAllowed) return;
   if (userSequence.includes(num)) return;
 
-  buttonClickSound.currentTime = 0;
-  buttonClickSound.play();
-
   const tempSequence = [...userSequence, num];
 
   if (isSequenceCorrect(tempSequence, correctSequence)) {
@@ -171,7 +176,6 @@ function handleGridClick(num) {
 // 🌟 Start puzzle on initial button click
 const button = document.getElementById(CLASSNAMES.startButton);
 button.addEventListener("click", () => {
-  buttonClickSound.play();
   document.getElementById(CLASSNAMES.beforeStarting).remove();
 
   const loadingText = document.getElementById(CLASSNAMES.loading);
