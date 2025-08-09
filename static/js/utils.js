@@ -70,7 +70,6 @@ function afterUserWon(correctSequence) {
 
 function afterUserLost(correctSequence) {
   const messageArea = document.getElementById(CLASSNAMES.result);
-  // "❌ Wrong button. You lost."
   const p1 = document.createElement("p");
   p1.innerHTML =
     "<strong>❌ You clicked on the wrong button! Wrong pattern!</strong>";
