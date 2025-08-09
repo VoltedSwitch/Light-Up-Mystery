@@ -50,6 +50,7 @@ let correctSequence = generatePattern(
 let isInputAllowed = false;
 let heartDropSound = new Audio("/static/sounds/heart-drop.mp3");
 let streakIncreaseSound = new Audio("/static/sounds/streak-up.mp3");
+let buttonClickSound = new Audio("/static/sounds/button-click.mp3");
 
 // 🚨 Helpers
 function updateStreakDisplay() {
@@ -118,6 +119,8 @@ function setInputAllowed(allowed) {
 function handleGridClick(num) {
   if (!isInputAllowed) return;
   if (userSequence.includes(num)) return;
+
+  buttonClickSound.play();
 
   const tempSequence = [...userSequence, num];
 
