@@ -17,18 +17,66 @@ const startingSequenceLength = 1;
 const modes = {
   easy: {
     chances: 6,
-    previewSpeed: 1200,
-    incrementPatternAt: 4,
+    previewSpeed: 1000,
+    buttonsToTurns: {
+      1: 1,
+      2: 1,
+      3: 1,
+      4: 1,
+      5: 2,
+      6: 2,
+      7: 2,
+      8: 2,
+      9: 3,
+      10: 3,
+      11: 3,
+      12: 3, 
+      13: 4,
+      14: 4,
+      15: 4,
+    },
   },
   medium: {
     chances: 3,
-    previewSpeed: 800,
-    incrementPatternAt: 2,
+    previewSpeed: 700,
+    buttonsToTurns: {
+      1: 1,
+      2: 1,
+      3: 1,
+      4: 1,
+      5: 1,
+      6: 1,
+      7: 2,
+      8: 2,
+      9: 2,
+      10: 2,
+      11: 2,
+      12: 2,
+      13: 3,
+      14: 3,
+      15: 3,
+    },
   },
   hard: {
     chances: 1,
     previewSpeed: 500,
-    incrementPatternAt: 1,
+    buttonsToTurns: {
+      1: 1,
+      2: 1,
+      3: 1,
+      4: 1,
+      5: 1,
+      6: 1,
+      7: 1,
+      8: 1,
+      9: 2,
+      10: 2,
+      11: 2,
+      12: 2,
+      13: 2,
+      14: 2,
+      15: 2,
+    },
   },
 };
 const difficultyDiv = document.getElementById("difficulty-buttons");
@@ -36,7 +84,7 @@ const difficultyDiv = document.getElementById("difficulty-buttons");
 let modeName = null;
 let chances = null;
 let previewSpeed = null;
-let incrementPatternAt = null;
+let buttonsToTurns = null;
 let turnCounter = 0;
 let streak = 0;
 let isGridInputAllowed = false;
@@ -126,7 +174,7 @@ function applyMode(modeName) {
   const mode = modes[modeName];
   chances = mode.chances;
   previewSpeed = mode.previewSpeed;
-  incrementPatternAt = mode.incrementPatternAt;
+  buttonsToTurns = mode.buttonsToTurns;
 }
 
 // 🌟 Click handler logic
@@ -146,10 +194,10 @@ function handleGridClick(num) {
       setGridInputAllowed(false);
       afterUserWon(correctSequence);
       streak++;
-      if (turnCounter < incrementPatternAt) {
+      if (turnCounter < buttonsToTurns[currentSequenceLength]) {
         turnCounter++;
       }
-      if (turnCounter === incrementPatternAt) {
+      if (turnCounter === buttonsToTurns[currentSequenceLength]) {
         turnCounter = 0;
         if (currentSequenceLength < maxButtons) {
           currentSequenceLength++;
@@ -173,7 +221,7 @@ function handleGridClick(num) {
       fadeAwayStreakAndChances();
     }
     applyWrongClickStyle(num);
-    afterUserLost(correctSequence, difficultyDiv, chances);
+    afterUserLost(correctSequence, difficultyDiv, streak);
   }
 }
 
@@ -243,7 +291,7 @@ startButton.addEventListener("click", () => {
 function restartApp(userLost = false) {
   const heading = document.getElementById("heading");
   heading.classList.remove("decrease-gap");
-  
+
   const resultArea = document.getElementById("result");
   if (resultArea) {
     resultArea.innerHTML = "";
