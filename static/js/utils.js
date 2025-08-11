@@ -1,7 +1,5 @@
 // static/js/utils.js
 
-import { CLASSNAMES } from "./constants.js";
-
 function randint(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -19,35 +17,46 @@ function generatePattern(length, min, max) {
 
 function applyCorrectClickStyle(num) {
   const btn = document.getElementById(`btn${num}`);
-  btn.classList.add(CLASSNAMES.win);
+  btn.classList.add("clicked-correct");
 }
 
 function applyWrongClickStyle(num) {
   const btn = document.getElementById(`btn${num}`);
-  btn.classList.add(CLASSNAMES.loss);
+  btn.classList.add("clicked-wrong");
 }
 
-function previewSequence(sequence, beforeStart, onDone) {
+function previewSequence(sequence, previewSpeed, beforeStart, onDone) {
   beforeStart();
-  sequence.forEach((num, idx) => {
+
+  sequence.forEach((num, index) => {
+    // This is the "SPACING CLOCK" — tells each button when to START
+    const startDelay = index * previewSpeed; // wait before this button flashes
+
     setTimeout(() => {
       const btn = document.getElementById(`btn${num}`);
-      btn.classList.add(CLASSNAMES.glow);
+
+      // Turn on the glow
+      btn.classList.add("preview-glow");
+
+      // This is the "GLOW CLOCK" — controls how long it stays lit
+      const glowDuration = 500; // ms
 
       setTimeout(() => {
-        btn.classList.remove(CLASSNAMES.glow);
-      }, 500);
-    }, idx * 1000);
+        btn.classList.remove("preview-glow");
+      }, glowDuration);
+    }, startDelay);
   });
 
+  // This waits until the WHOLE sequence is done, then calls onDone
+  const totalTime = sequence.length * previewSpeed;
   setTimeout(() => {
     onDone();
-  }, sequence.length * 1000);
+  }, totalTime);
 }
 
 // 🎉 Show win message and restart button
 function afterUserWon(correctSequence) {
-  const messageArea = document.getElementById(CLASSNAMES.result);
+  const resultArea = document.getElementById("result");
 
   const p = document.createElement("p");
   const buttonsOrButton =
@@ -57,19 +66,20 @@ function afterUserWon(correctSequence) {
   p.innerHTML = buttonsOrButton;
 
   const againButton = document.createElement("button");
-  againButton.innerText = "Puzzle Again?";
-  againButton.id = "puzzle-again";
+  againButton.textContent = "Puzzle Again?";
+  againButton.id = "puzzle-again-button";
 
   againButton.addEventListener("click", () => {
     import("./main.js").then((mod) => mod.restartApp());
   });
 
-  messageArea.appendChild(p);
-  messageArea.appendChild(againButton);
+  resultArea.appendChild(p);
+  resultArea.appendChild(againButton);
 }
 
-function afterUserLost(correctSequence) {
-  const messageArea = document.getElementById(CLASSNAMES.result);
+// elementsToAdd: array
+function afterUserLost(correctSequence, difficultyDiv, streak) {
+  const resultArea = document.getElementById("result");
   const p1 = document.createElement("p");
   p1.innerHTML =
     "<strong>❌ You clicked on the wrong button! Wrong pattern!</strong>";
@@ -80,16 +90,23 @@ function afterUserLost(correctSequence) {
   )}`;
 
   const tryAgainButton = document.createElement("button");
-  tryAgainButton.innerText = "Try Again?";
-  tryAgainButton.id = "try-again";
+  tryAgainButton.textContent = "Try Again?";
+  tryAgainButton.id = "try-again-button";
 
   tryAgainButton.addEventListener("click", () => {
     import("./main.js").then((mod) => mod.restartApp(true));
   });
 
-  messageArea.appendChild(p1);
-  messageArea.appendChild(p2);
-  messageArea.appendChild(tryAgainButton);
+  resultArea.appendChild(p1);
+  resultArea.appendChild(p2);
+  if (streak === 0) {
+    const heading = document.getElementById("heading");
+    heading.classList.add("decrease-gap");
+    tryAgainButton.classList.add("spacing");
+    difficultyDiv.classList.remove("hidden");
+    resultArea.appendChild(difficultyDiv);
+  }
+  resultArea.appendChild(tryAgainButton);
 }
 
 function isSequenceCorrect(partial, correct) {

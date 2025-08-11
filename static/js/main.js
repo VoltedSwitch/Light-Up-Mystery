@@ -10,36 +10,36 @@ import {
   isSequenceCorrect,
 } from "./utils.js";
 
-import { CLASSNAMES } from "./constants.js";
-
 // 🌟 Global puzzle state
-// Syntax: buttons: turns
-const turnsToPatternIncrement = {
-  1: 3,
-  2: 3,
-  3: 3,
-  4: 3,
-  5: 3,
-  6: 3,
-  7: 4,
-  8: 4,
-  9: 4,
-  10: 4,
-  11: 4,
-  12: 5,
-  13: 5,
-  14: 5,
-  15: 5,
-};
-const startingSequenceLength = 1;
 const startingButton = 1;
 const maxButtons = 16;
-const startingChances = 3;
+const startingSequenceLength = 1;
+const modes = {
+  easy: {
+    chances: 6,
+    previewSpeed: 1200,
+    incrementPatternAt: 4,
+  },
+  medium: {
+    chances: 3,
+    previewSpeed: 800,
+    incrementPatternAt: 2,
+  },
+  hard: {
+    chances: 1,
+    previewSpeed: 500,
+    incrementPatternAt: 1,
+  },
+};
+const difficultyDiv = document.getElementById("difficulty-buttons");
 
-let currentTurns = turnsToPatternIncrement[startingSequenceLength];
+let modeName = null;
+let chances = null;
+let previewSpeed = null;
+let incrementPatternAt = null;
 let turnCounter = 0;
 let streak = 0;
-let chances = startingChances;
+let isGridInputAllowed = false;
 let currentSequenceLength = startingSequenceLength;
 let userSequence = [];
 let correctSequence = generatePattern(
@@ -47,7 +47,6 @@ let correctSequence = generatePattern(
   startingButton,
   maxButtons
 );
-let isInputAllowed = false;
 let heartDropSound = new Audio("/static/sounds/heart-drop.mp3");
 let streakIncreaseSound = new Audio("/static/sounds/streak-up.mp3");
 let buttonClickSound = new Audio("/static/sounds/button-click.mp3");
@@ -62,60 +61,60 @@ document.querySelectorAll(".button-press-effect").forEach((button) => {
 
 // 🚨 Helpers
 function updateStreakDisplay() {
-  const displayStreak = document.getElementById(CLASSNAMES.streak);
+  const displayStreak = document.getElementById("display-streak");
   streakIncreaseSound.play();
   if (currentSequenceLength < maxButtons) {
-    displayStreak.innerText = `🔥 ${streak}`;
+    displayStreak.textContent = `🔥 ${streak}`;
   } else {
-    displayStreak.innerText = `🧠🔥✨ ${streak}`;
+    displayStreak.textContent = `🧠🔥✨ ${streak}`;
   }
 }
 
 function updateChancesDisplay(playSound = false) {
   const full = "❤️".repeat(chances);
-  const empty = "🖤".repeat(startingChances - chances);
+  const empty = "🖤".repeat(modes[modeName].chances - chances);
   if (playSound) {
     heartDropSound.play();
   }
-  document.getElementById(CLASSNAMES.hearts).innerText = full + empty;
+  document.getElementById("display-chances").textContent = full + empty;
 }
 
 function animateStreak() {
-  const displayStreak = document.getElementById(CLASSNAMES.streak);
-  displayStreak.classList.add(CLASSNAMES.bounce);
-  setTimeout(() => displayStreak.classList.remove(CLASSNAMES.bounce), 500);
+  const displayStreak = document.getElementById("display-streak");
+  displayStreak.classList.add("bounce-effect");
+  setTimeout(() => displayStreak.classList.remove("bounce-effect"), 500);
 }
 
 function animateChances() {
-  const displayChances = document.getElementById(CLASSNAMES.hearts);
-  displayChances.classList.add(CLASSNAMES.shake);
+  const displayChances = document.getElementById("display-chances");
+  displayChances.classList.add("shake-effect");
 
   setTimeout(() => {
-    displayChances.classList.remove(CLASSNAMES.shake);
+    displayChances.classList.remove("shake-effect");
   }, 500);
 }
 
 function fadeAwayStreakAndChances() {
-  const displayStreak = document.getElementById(CLASSNAMES.streak);
-  const displayChances = document.getElementById(CLASSNAMES.hearts);
+  const displayStreak = document.getElementById("display-streak");
+  const displayChances = document.getElementById("display-chances");
 
   setTimeout(() => {
-    displayChances.classList.add(CLASSNAMES.fadeAway);
-    displayStreak.classList.add(CLASSNAMES.fadeAway);
+    displayChances.classList.add("fade-out");
+    displayStreak.classList.add("fade-out");
 
     setTimeout(() => {
-      displayStreak.innerText = "";
-      displayChances.innerText = "";
+      displayStreak.textContent = "";
+      displayChances.textContent = "";
 
-      displayChances.classList.remove(CLASSNAMES.fadeAway);
-      displayStreak.classList.remove(CLASSNAMES.fadeAway);
+      displayChances.classList.remove("fade-out");
+      displayStreak.classList.remove("fade-out");
     }, 500);
   }, 500);
 }
 
-function setInputAllowed(allowed) {
-  isInputAllowed = allowed;
-  const grid = document.getElementById(CLASSNAMES.grid);
+function setGridInputAllowed(allowed) {
+  isGridInputAllowed = allowed;
+  const grid = document.getElementById("grid-container");
   if (allowed) {
     grid.classList.remove("disabled");
   } else {
@@ -123,9 +122,16 @@ function setInputAllowed(allowed) {
   }
 }
 
+function applyMode(modeName) {
+  const mode = modes[modeName];
+  chances = mode.chances;
+  previewSpeed = mode.previewSpeed;
+  incrementPatternAt = mode.incrementPatternAt;
+}
+
 // 🌟 Click handler logic
 function handleGridClick(num) {
-  if (!isInputAllowed) return;
+  if (!isGridInputAllowed) return;
   if (userSequence.includes(num)) return;
 
   const tempSequence = [...userSequence, num];
@@ -137,17 +143,16 @@ function handleGridClick(num) {
     const isComplete = userSequence.length === correctSequence.length;
 
     if (isComplete && isSequenceCorrect(userSequence, correctSequence)) {
-      setInputAllowed(false);
+      setGridInputAllowed(false);
       afterUserWon(correctSequence);
       streak++;
-      if (turnCounter < currentTurns) {
+      if (turnCounter < incrementPatternAt) {
         turnCounter++;
       }
-      if (turnCounter === currentTurns) {
+      if (turnCounter === incrementPatternAt) {
         turnCounter = 0;
         if (currentSequenceLength < maxButtons) {
           currentSequenceLength++;
-          currentTurns = turnsToPatternIncrement[currentSequenceLength];
         }
       }
       updateStreakDisplay();
@@ -155,7 +160,7 @@ function handleGridClick(num) {
       updateChancesDisplay();
     }
   } else {
-    setInputAllowed(false);
+    setGridInputAllowed(false);
     if (chances > 0 && streak > 0) {
       chances--;
       updateChancesDisplay(true);
@@ -165,27 +170,56 @@ function handleGridClick(num) {
       streak = 0;
       turnCounter = 0;
       currentSequenceLength = startingSequenceLength;
-      currentTurns = turnsToPatternIncrement[startingSequenceLength];
       fadeAwayStreakAndChances();
     }
     applyWrongClickStyle(num);
-    afterUserLost(correctSequence);
+    afterUserLost(correctSequence, difficultyDiv, chances);
   }
 }
 
-// 🌟 Start puzzle on initial button click
-const button = document.getElementById(CLASSNAMES.startButton);
-button.addEventListener("click", () => {
-  document.getElementById(CLASSNAMES.beforeStarting).remove();
+// 🌟 Start Logic
+const difficultyButtons = difficultyDiv.querySelectorAll("button");
+const startButton = document.getElementById("start-button");
 
-  const loadingText = document.getElementById(CLASSNAMES.loading);
-  loadingText.innerText = "Loading...";
+difficultyButtons.forEach((difficultyBtn) => {
+  difficultyBtn.addEventListener("click", () => {
+    if (!difficultyBtn.classList.contains("selected")) {
+      difficultyButtons.forEach((b) => b.classList.remove("selected"));
+      difficultyBtn.classList.add("selected");
+      modeName = difficultyBtn.textContent.trim().toLowerCase();
+      startButton.classList.remove("disabled");
+      const tryAgainButton = document.getElementById("try-again-button");
+      if (tryAgainButton) {
+        tryAgainButton.classList.remove("disabled");
+      }
+    } else {
+      difficultyBtn.classList.remove("selected");
+      modeName = null;
+      startButton.classList.add("disabled");
+      const tryAgainButton = document.getElementById("try-again-button");
+      if (tryAgainButton) {
+        tryAgainButton.classList.add("disabled");
+      }
+    }
+  });
+});
+
+startButton.addEventListener("click", () => {
+  applyMode(modeName);
+
+  const instructions = document.getElementById("instructions");
+  instructions.classList.add("hidden");
+  startButton.classList.add("hidden");
+  difficultyDiv.classList.add("hidden");
+
+  const loadingText = document.getElementById("loading-text");
+  loadingText.textContent = "Loading...";
 
   setTimeout(() => {
-    loadingText.innerText = "";
+    loadingText.textContent = "";
 
-    const grid = document.getElementById(CLASSNAMES.grid);
-    grid.style.display = "grid";
+    const grid = document.getElementById("grid-container");
+    grid.classList.remove("hidden");
 
     for (let i = 1; i <= 16; i++) {
       const btn = document.getElementById(`btn${i}`);
@@ -194,11 +228,12 @@ button.addEventListener("click", () => {
 
     previewSequence(
       correctSequence,
+      previewSpeed,
       () => {
-        setInputAllowed(false);
+        setGridInputAllowed(false);
       },
       () => {
-        setInputAllowed(true);
+        setGridInputAllowed(true);
       }
     );
   }, 2000);
@@ -206,20 +241,27 @@ button.addEventListener("click", () => {
 
 // 🔄 Restart logic used by utils.js buttons
 function restartApp(userLost = false) {
-  const messageArea = document.getElementById(CLASSNAMES.result);
-  if (messageArea) {
-    messageArea.innerHTML = "";
+  const heading = document.getElementById("heading");
+  heading.classList.remove("decrease-gap");
+  
+  const resultArea = document.getElementById("result");
+  if (resultArea) {
+    resultArea.innerHTML = "";
   }
 
-  const grid = document.getElementById(CLASSNAMES.grid);
-  grid.style.display = "none";
+  if (userLost && streak === 0) {
+    applyMode(modeName);
+  }
 
-  const loadingText = document.getElementById(CLASSNAMES.loading);
-  loadingText.innerText = "Loading...";
+  const grid = document.getElementById("grid-container");
+  grid.classList.add("hidden");
+
+  const loadingText = document.getElementById("loading-text");
+  loadingText.textContent = "Loading...";
 
   for (let i = 1; i <= 16; i++) {
     const btn = document.getElementById(`btn${i}`);
-    btn.classList.remove(CLASSNAMES.win, CLASSNAMES.loss);
+    btn.classList.remove("clicked-correct", "clicked-wrong");
   }
 
   userSequence = [];
@@ -228,22 +270,19 @@ function restartApp(userLost = false) {
     startingButton,
     maxButtons
   );
-  isInputAllowed = false;
-  if (userLost && streak === 0) {
-    chances = startingChances;
-  }
 
   setTimeout(() => {
-    loadingText.innerText = "";
-    grid.style.display = "grid";
+    loadingText.textContent = "";
+    grid.classList.remove("hidden");
 
     previewSequence(
       correctSequence,
+      previewSpeed,
       () => {
-        setInputAllowed(false);
+        setGridInputAllowed(false);
       },
       () => {
-        setInputAllowed(true);
+        setGridInputAllowed(true);
       }
     );
   }, 2000);
