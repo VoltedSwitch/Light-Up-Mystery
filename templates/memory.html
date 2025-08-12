@@ -11,12 +11,12 @@
   </head>
   <body>
     <h1 id="heading">Memory Matrix 🧠</h1>
-    <div id="loading-text" class="loading-text"></div>
-    <div id="display-streak" class="display-streak"></div>
-    <div id="display-chances" class="display-chances"></div>
+    <div id="loading-text"></div>
+    <div id="display-streak"></div>
+    <div id="display-chances"></div>
 
-    <div id="before-starting" class="before-starting">
-      <p id="instructions" class="instructions">
+    <div id="before-starting">
+      <p id="instructions">
         <strong>Instructions</strong>: After clicking 'Start Puzzle' you will be
         directed to a preview of a grid of buttons in which you will see
         flashing buttons; Pay close attention to the exact order in which the
@@ -25,33 +25,24 @@
         flashes after the preview is completed!
       </p>
 
-      <div id="difficulty-buttons" class="difficulty-buttons">
-        <button id="easy-button" class="easy-button button-press-effect">
-          Easy
-        </button>
-        <button id="medium-button" class="medium-button button-press-effect">
-          Medium
-        </button>
-        <button id="hard-button" class="hard-button button-press-effect">
-          Hard
-        </button>
+      <div id="difficulty-buttons">
+        <button id="easy-button" class="button-press-effect">Easy</button>
+        <button id="medium-button" class="button-press-effect">Medium</button>
+        <button id="hard-button" class="button-press-effect">Hard</button>
       </div>
 
-      <button
-        id="start-button"
-        class="start-button button-press-effect disabled"
-      >
+      <button id="start-button" class="button-press-effect disabled">
         Start Puzzle
       </button>
     </div>
 
-    <div id="grid-container" class="grid-container hidden">
+    <div id="grid-container" class="hidden">
       {% for i in range(1, 17) %}
       <button id="btn{{i}}" class="button-press-effect">{{i}}</button>
       {% endfor %}
     </div>
 
-    <div id="result" class="result"></div>
+    <div id="result"></div>
 
     <script
       type="module"
