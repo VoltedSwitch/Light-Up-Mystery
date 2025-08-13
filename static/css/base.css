@@ -1,0 +1,11 @@
+/* static/css/base.css */
+
+button {
+  padding: 30px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: none;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
