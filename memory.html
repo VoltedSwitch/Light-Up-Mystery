@@ -1,0 +1,56 @@
+<!--templates/memory.html-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Memory Puzzle</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <h1>Memory Matrix 🧠</h1>
+  <div id="loading-text" class="loading-text"></div>
+  <div id="display-streak" class="display-streak"></div>
+  <div id="display-chances" class="display-chances"></div>
+
+  <div id="before-starting" class="before-starting">
+    <p class="instructions">
+      <strong>Instructions</strong>: After clicking 'Start Puzzle' you will be
+      directed to a preview of a grid of buttons in which you will see
+      flashing buttons; Pay close attention to the exact order in which the
+      flashing buttons are turning green and try to memorize at a glance and
+      use that memory to click those buttons in that exact order of the
+      flashes after the preview is completed!
+    </p>
+    <button id="start-btn" class="start-button button-press-effect">
+      Start Puzzle
+    </button>
+  </div>
+
+  <div id="grid-container" class="grid-container">
+    <button id="btn1" class="button-press-effect">1</button>
+    <button id="btn2" class="button-press-effect">2</button>
+    <button id="btn3" class="button-press-effect">3</button>
+    <button id="btn4" class="button-press-effect">4</button>
+    <button id="btn5" class="button-press-effect">5</button>
+    <button id="btn6" class="button-press-effect">6</button>
+    <button id="btn7" class="button-press-effect">7</button>
+    <button id="btn8" class="button-press-effect">8</button>
+    <button id="btn9" class="button-press-effect">9</button>
+    <button id="btn10" class="button-press-effect">10</button>
+    <button id="btn11" class="button-press-effect">11</button>
+    <button id="btn12" class="button-press-effect">12</button>
+    <button id="btn13" class="button-press-effect">13</button>
+    <button id="btn14" class="button-press-effect">14</button>
+    <button id="btn15" class="button-press-effect">15</button>
+    <button id="btn16" class="button-press-effect">16</button>
+  </div>
+
+
+  <div id="result-message" class="result-message"></div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+
+</html>

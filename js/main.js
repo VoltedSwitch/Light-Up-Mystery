@@ -48,9 +48,9 @@ let correctSequence = generatePattern(
   maxButtons
 );
 let isInputAllowed = false;
-let heartDropSound = new Audio("/static/sounds/heart-drop.mp3");
-let streakIncreaseSound = new Audio("/static/sounds/streak-up.mp3");
-let buttonClickSound = new Audio("/static/sounds/button-click.mp3");
+let heartDropSound = new Audio("sounds/heart-drop.mp3");
+let streakIncreaseSound = new Audio("sounds/streak-up.mp3");
+let buttonClickSound = new Audio("sounds/button-click.mp3");
 
 // 🚨 Helpers
 function updateStreakDisplay() {
