@@ -5,8 +5,8 @@ import {
   afterUserWon,
   afterUserLost,
   previewSequence,
-  applyWrongClickStyle,
-  applyCorrectClickStyle,
+  applyWrongClick,
+  applyCorrectClick,
   isSequenceCorrect,
 } from "./utils.js";
 
@@ -126,7 +126,7 @@ function handleGridClick(num) {
   const tempSequence = [...userSequence, num];
 
   if (isSequenceCorrect(tempSequence, correctSequence)) {
-    applyCorrectClickStyle(num);
+    applyCorrectClick(num, correctSequence);
     userSequence.push(num);
 
     const isComplete = userSequence.length === correctSequence.length;
@@ -163,7 +163,7 @@ function handleGridClick(num) {
       currentTurns = turnsToPatternIncrement[startingSequenceLength];
       fadeAwayStreakAndChances();
     }
-    applyWrongClickStyle(num);
+    applyWrongClick(num);
     afterUserLost(correctSequence);
   }
 }
@@ -216,6 +216,7 @@ function restartApp(userLost = false) {
   for (let i = 1; i <= 16; i++) {
     const btn = document.getElementById(`btn${i}`);
     btn.classList.remove(CLASSNAMES.win, CLASSNAMES.loss);
+    btn.innerText = "";
   }
 
   userSequence = [];

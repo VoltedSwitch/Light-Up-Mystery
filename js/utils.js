@@ -17,12 +17,24 @@ function generatePattern(length, min, max) {
   return pattern;
 }
 
-function applyCorrectClickStyle(num) {
+function applyCorrectClick(num, sequence) {
+  // Add green to correctly clicked button
   const btn = document.getElementById(`btn${num}`);
   btn.classList.add(CLASSNAMES.win);
+
+  // Create numbers from 1 to last item number mapped to each correct button ordered number in the sequence
+  const mapped = {};
+  let counter = 1;
+  for (let number of sequence) {
+    mapped[number] = counter;
+    counter++;
+  }
+
+  // Number the correctly clicked button in the order of all correct clicked buttons
+  btn.innerText = mapped[num];
 }
 
-function applyWrongClickStyle(num) {
+function applyWrongClick(num) {
   const btn = document.getElementById(`btn${num}`);
   btn.classList.add(CLASSNAMES.loss);
 }
@@ -37,12 +49,12 @@ function previewSequence(sequence, beforeStart, onDone) {
       setTimeout(() => {
         btn.classList.remove(CLASSNAMES.glow);
       }, 500);
-    }, idx * 1000);
+    }, idx * 500);
   });
 
   setTimeout(() => {
     onDone();
-  }, sequence.length * 1000);
+  }, sequence.length * 500);
 }
 
 // 🎉 Show win message and restart button
@@ -99,8 +111,8 @@ function isSequenceCorrect(partial, correct) {
 
 export {
   generatePattern,
-  applyCorrectClickStyle,
-  applyWrongClickStyle,
+  applyCorrectClick,
+  applyWrongClick,
   previewSequence,
   afterUserWon,
   afterUserLost,
