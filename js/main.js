@@ -15,10 +15,10 @@ import { CLASSNAMES } from "./constants.js";
 // 🌟 Global puzzle state
 // Syntax: buttons: turns
 const turnsToPatternIncrement = {
-  1: 3,
-  2: 3,
-  3: 3,
-  4: 3,
+  1: 1,
+  2: 1,
+  3: 1,
+  4: 2,
   5: 3,
   6: 3,
   7: 4,
