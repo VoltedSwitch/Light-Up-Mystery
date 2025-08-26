@@ -133,6 +133,7 @@ h1 {
 }
 
 .grid-container button {
+  height: 81px;
   user-select: none;
   touch-action: manipulation;
   transition: transform 0.1s ease;
