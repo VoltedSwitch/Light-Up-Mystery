@@ -17,21 +17,18 @@ function generatePattern(length, min, max) {
   return pattern;
 }
 
-function applyCorrectClick(num, sequence) {
-  // Add green to correctly clicked button
+function generateCounting(pattern) {
+  mapped = new Map();
+  for (let [index, value] of pattern.entries()) {
+    mapped.set(value, index + 1);
+  }
+  return mapped;
+}
+
+function applyCorrectClick(num, counting) {
   const btn = document.getElementById(`btn${num}`);
   btn.classList.add(CLASSNAMES.win);
-
-  // Create numbers from 1 to last item number mapped to each correct button ordered number in the sequence
-  const mapped = {};
-  let counter = 1;
-  for (let number of sequence) {
-    mapped[number] = counter;
-    counter++;
-  }
-
-  // Number the correctly clicked button in the order of all correct clicked buttons
-  btn.innerText = mapped[num];
+  btn.innerText = counting.get(num);
 }
 
 function applyWrongClick(num) {
@@ -111,6 +108,7 @@ function isSequenceCorrect(partial, correct) {
 
 export {
   generatePattern,
+  generateCounting,
   applyCorrectClick,
   applyWrongClick,
   previewSequence,

@@ -2,6 +2,7 @@
 
 import {
   generatePattern,
+  generateCounting,
   afterUserWon,
   afterUserLost,
   previewSequence,
@@ -47,6 +48,7 @@ let correctSequence = generatePattern(
   startingButton,
   maxButtons
 );
+let correctSequenceCounting = generateCounting(correctSequence);
 let isInputAllowed = false;
 let heartDropSound = new Audio("sounds/heart-drop.mp3");
 let streakIncreaseSound = new Audio("sounds/streak-up.mp3");
@@ -126,7 +128,7 @@ function handleGridClick(num) {
   const tempSequence = [...userSequence, num];
 
   if (isSequenceCorrect(tempSequence, correctSequence)) {
-    applyCorrectClick(num, correctSequence);
+    applyCorrectClick(num, correctSequenceCounting);
     userSequence.push(num);
 
     const isComplete = userSequence.length === correctSequence.length;
@@ -225,6 +227,7 @@ function restartApp(userLost = false) {
     startingButton,
     maxButtons
   );
+  correctSequenceCounting = generateCounting(correctSequence);
   isInputAllowed = false;
   if (userLost && streak === 0) {
     chances = startingChances;
