@@ -18,7 +18,7 @@ function generatePattern(length, min, max) {
 }
 
 function generateCounting(pattern) {
-  mapped = new Map();
+  const mapped = new Map();
   for (let [index, value] of pattern.entries()) {
     mapped.set(value, index + 1);
   }
