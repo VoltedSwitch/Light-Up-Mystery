@@ -15,4 +15,4 @@ Test your short-term memory by remembering and repeating the glowing pattern of 
 - 🔄 "Try Again" / "Puzzle Again" buttons for full restart
 - 🔥 Tracks win streaks & heart ❤️❤️❤️ system for preserving streak until 3 mistakes
 - 🎯 Built using modern JavaScript
-- 🔊 Sound effects
+- 🔊 Sound effects & sounds mute button

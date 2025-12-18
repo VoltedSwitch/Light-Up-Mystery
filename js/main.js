@@ -50,14 +50,37 @@ let correctSequence = generatePattern(
 );
 let correctSequenceCounting = generateCounting(correctSequence);
 let isInputAllowed = false;
-let heartDropSound = new Audio("sounds/heart-drop.mp3");
-let streakIncreaseSound = new Audio("sounds/streak-up.mp3");
-let buttonClickSound = new Audio("sounds/button-click.mp3");
+let isMuted = false;
+const heartDropSound = new Audio("sounds/heart-drop.mp3");
+const streakIncreaseSound = new Audio("sounds/streak-up.mp3");
+const buttonClickSound = new Audio("sounds/button-click.mp3");
+
+buttonClickSound.volume = 0.9;
+heartDropSound.volume = 0.2;
+streakIncreaseSound.volume = 0.1;
 
 // 🚨 Helpers
+function playButtonClickSound() {
+  if (isMuted) return;
+  buttonClickSound.currentTime = 0;
+  buttonClickSound.play();
+}
+
+function playHeartDropSound() {
+  if (isMuted) return;
+  heartDropSound.currentTime = 0;
+  heartDropSound.play();
+}
+
+function playStreakSound() {
+  if (isMuted) return;
+  streakIncreaseSound.currentTime = 0;
+  streakIncreaseSound.play();
+}
+
 function updateStreakDisplay() {
   const displayStreak = document.getElementById(CLASSNAMES.streak);
-  streakIncreaseSound.play();
+  playStreakSound();
   if (currentSequenceLength < maxButtons) {
     displayStreak.innerText = `🔥 ${streak}`;
   } else {
@@ -69,7 +92,7 @@ function updateChancesDisplay(playSound = false) {
   const full = "❤️".repeat(chances);
   const empty = "🖤".repeat(startingChances - chances);
   if (playSound) {
-    heartDropSound.play();
+    playHeartDropSound();
   }
   document.getElementById(CLASSNAMES.hearts).innerText = full + empty;
 }
@@ -122,8 +145,7 @@ function handleGridClick(num) {
   if (!isInputAllowed) return;
   if (userSequence.includes(num)) return;
 
-  buttonClickSound.currentTime = 0;
-  buttonClickSound.play();
+  playButtonClickSound();
 
   const tempSequence = [...userSequence, num];
 
@@ -171,9 +193,14 @@ function handleGridClick(num) {
 }
 
 // 🌟 Start puzzle on initial button click
+const muteBtn = document.getElementById("mute-btn");
+muteBtn.addEventListener("click", () => {
+  isMuted = !isMuted;
+  muteBtn.innerText = isMuted ? "🔇" : "🔊";
+});
 const button = document.getElementById(CLASSNAMES.startButton);
 button.addEventListener("click", () => {
-  buttonClickSound.play();
+  playButtonClickSound();
   document.getElementById(CLASSNAMES.beforeStarting).remove();
 
   const loadingText = document.getElementById(CLASSNAMES.loading);
